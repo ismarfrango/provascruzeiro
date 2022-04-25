@@ -12,7 +12,7 @@ function update() {
 var select = document.getElementById('rgm')
 index = select.selectedIndex
 option = rgms[index];
-text = (index == -1) ? noms[0] : noms[select.selectedIndex];
+text = (typeof index == 'undefined') ? noms[0] : noms[select.selectedIndex];
 }
     
 function first(nome)
