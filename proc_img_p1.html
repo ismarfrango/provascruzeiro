@@ -37,7 +37,7 @@ w.document.write("</TR><TR><TD colspan=3>Para as questões que envolvem <i>thres
 for (i=1;i<=3;i++)
 {
   mylim = (((Math.round(option/(Math.pow(10,i)))%(i*71))+180)%200)
-  if (mylim <50) mylim+=50
+  if (mylim <50) mylim+=100
   w.document.write("lim"+i+" = "+mylim+"<BR />") 
 }
 w.document.write("</TD></TR><TD colspan=3>Para a questão da bandeira, use as seguintes imagens:</TD><TR>")
