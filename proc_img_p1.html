@@ -1,0 +1,87 @@
+<script>
+
+var rgms = new Array(23322276,23286300,23425644,23416611,25176943,23724951,23542306,23423641,23453311,23386851,23455624,23518022,23406836,23303824,22724061,26636280,24395641,23779454,23378417,28416422)
+
+var noms = new Array("ARTHUR HENRIQUE QUIRINO DA SILVA ALVES","BRUNA ROCHA DA SILVA ","BRUNO SOUSA DE JESUS","CARLOS JORGE NASCIMENTO DA CRUZ","EMESSON LOPES DO NASCIMENTO","FELIPE SILVA PAIVA DA COSTA","GABRIEL PRADO DE PAULA","GABRIELLE RAMOS IRINEU","GABRIELLY SAMPAIO ALVES","HENRIQUE PERAZZO DE ALMEIDA","HINGRETH DANIELLE MARTINS RODRIGUES","IGOR DOS PASSOS CORDEIRO","JHENIFER DA SILVA MESTIÇO","LAURI OSMAR SEIBOTH JUNIOR","MARCELO CARDOSO LEANDRO","MATHEUS BRANDÃO DOMINGUES","NIVALDO PEDRO DOS SANTOS","RODRIGO NASCIMENTO","THIAGO FERNANDES DO NASCIMENTO","WANILTON DA SILVA ELIAS")
+
+var text = ""
+var option = -1
+var index = 0
+
+function update() {
+var select = document.getElementById('rgm')
+index = select.selectedIndex
+option = rgms[index];
+text = noms[select.selectedIndex];
+}
+    
+function first(nome)
+{
+    return nome.replace(/ .*/,'');
+}
+    
+function monta()
+{
+w = window.open();
+var oper = new Array("AND","OR","XOR");
+var rgb = new Array("vermelho","verde","azul");
+var RGB = new Array ("R","G","B");
+w.document.write("<table border=1 width=100%><tr><td colspan=3><FONT FACE='Calibri'><IMG SRC='logo_ucs.jpg' align='left' width='200'>PROCESSAMENTO DE IMAGENS - P1 - 27.abr.22<BR />Enunciado exclusivo para "+ first(text))
+w.document.write("<BR /><FONT FACE='Calibri'>para as questões desta prova, use as seguintes imagens: <BR /></td></tr><TR>")
+for (i=1;i<=3;i++)
+ w.document.write("<TD><CENTER><FONT FACE='Courier' +2>img"+i+"</FONT></CENTER></TD>")
+w.document.write("</TR><TR>")
+for (i=1;i<=3;i++)
+ w.document.write("<TD><CENTER> <IMG SRC='b"+(index+i+3)%rgms.length+".jpg' width=256 height=512> </CENTER></TD>")
+w.document.write("</TR><TR><TD colspan=3>Para as questões que envolvem <i>threshold</i> (limiarização) use os seguintes valores para as variáveis:<BR />")
+for (i=1;i<=3;i++)
+ w.document.write("lim"+i+" = "+(((Math.round(option/(Math.pow(10,i)))%(i*71))+180)%200)+"<BR />") 
+w.document.write("</TD></TR><TD colspan=3>Para a questão da bandeira, use as seguintes imagens:</TD><TR>")
+for (i=0;i<3;i++)
+ w.document.write("<TD><CENTER> <FONT FACE='Courier' +2>"+RGB[i]+"</FONT> </CENTER></TD>")
+w.document.write("</TR><TR>")
+var ch = 1+(option%4)
+for (i=0;i<3;i++)
+ w.document.write("<TD><CENTER> <IMG SRC='f"+ch+"-"+rgb[i]+".jpg' border=1 width=256 height=128> </CENTER></TD>")
+w.document.write("</TR><TR><TD colspan=3>Para a questão do operador lógico <i>bitwise</i>, use o operador <B>"+oper[option%3]+"</B></TD></TR>")
+var chb = option%2
+
+var kernel = new Array( new Array(1,(chb ? 1 : 2), 1),
+						new Array((chb ? 1 : 2),(chb ? 1 : 4), (chb ? 1 : 2)),
+						new Array(1,(chb ? 1 : 2), 1) )
+var scalar = chb ? 9 : 16					
+w.document.write("</TR><TR><TD colspan=3>Para a questão do <i>kernel</i>, use a seguinte matriz: ")
+w.document.write("<TABLE><TR><TD  ROWSPAN=3 valign='center'><sup>1</sup>/<sub>"+scalar+"</sub></TD>")
+for (i=0;i<3;i++)
+ {for (j=0;j<3;j++)
+   w.document.write("<td style='border: 1px solid red; border-radius: 10px;'>"+kernel[i][j]+"</TD>")
+ w.document.write("</TR><TR>")}
+w.document.write("</TR></TABLE>")
+}
+
+function prv()
+{
+var resp = false;
+if (index==-1) alert("Selecione um RGM") 
+  else resp=confirm("Confirma abrir enunciado de "+text+"?")
+if (resp)
+    monta()
+}
+
+</script>
+<HTML><BODY>
+<table border=0><tr><td><FONT FACE='Calibri'><IMG SRC='logo_ucs.jpg' align='left' width='200'>PROCESSAMENTO DE IMAGENS - P1 - 27.abr.22<BR />
+</td></tr></table><HR/><BR />
+<FORM>
+<CENTER><FONT FACE='Calibri'>
+Seu RGM: 
+<select id="rgm" name="rgm" size= 1 onChange="update()">
+ <script>
+  var y;
+  for (i=0; i<rgms.length; i++){
+   y = '<option value="'+rgms[i]+'">'+rgms[i]+'</option>'
+   document.write(y); }
+ document.write("</select>");
+document.write('<button type="button" onClick="prv()">Abrir prova</button>')
+</script>
+</FORM>
