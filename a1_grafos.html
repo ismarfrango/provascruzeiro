@@ -1,0 +1,213 @@
+<script>
+
+var rgms = new Array("Escolha",23322276,23286300,23425644,23416611,25176943,23724951,23542306,23423641,23453311,23386851,23455624,23518022,23406836,23303824,22724061,26636280,24395641,23779454,23378417,28416422)
+
+var noms = new Array("Escolha","ARTHUR HENRIQUE QUIRINO DA SILVA ALVES","BRUNA ROCHA DA SILVA ","BRUNO SOUSA DE JESUS","CARLOS JORGE NASCIMENTO DA CRUZ","EMESSON LOPES DO NASCIMENTO","FELIPE SILVA PAIVA DA COSTA","GABRIEL PRADO DE PAULA","GABRIELLE RAMOS IRINEU","GABRIELLY SAMPAIO ALVES","HENRIQUE PERAZZO DE ALMEIDA","HINGRETH DANIELLE MARTINS RODRIGUES","IGOR DOS PASSOS CORDEIRO","JHENIFER DA SILVA MESTIÇO","LAURI OSMAR SEIBOTH JUNIOR","MARCELO CARDOSO LEANDRO","MATHEUS BRANDÃO DOMINGUES","NIVALDO PEDRO DOS SANTOS","RODRIGO NASCIMENTO","THIAGO FERNANDES DO NASCIMENTO","WANILTON DA SILVA ELIAS")
+
+var text = ""
+var option = -1
+var index = 0
+
+function update() {
+var select = document.getElementById('rgm')
+index = select.selectedIndex
+option = rgms[index];
+text = (typeof index == 'undefined') ? noms[0] : noms[select.selectedIndex];
+}
+    
+function first(nome)
+{
+    return nome.replace(/ .*/,'');
+}
+    
+function aleat(arr,i,pi)
+{
+     
+    str = adj[i] + " <B>|</B> " ; 
+    strp= ""
+    n = (i%2) + 4
+    for (j=1;j<n;j++)
+    {
+		strp = arr[Math.trunc(radj[i]/(Math.pow(10,j)))%pi]
+		console.log(radj[i]/(Math.pow(10,j)))
+        if (str.search(strp)<0) 
+            str += strp + " ";
+        //else i--
+    }
+    return str
+}
+
+    
+function aleatb(arr,i,pi)
+{
+    
+    str = adj[i] + " <B>|</B> " ; 
+    strp= ""
+    n = (i%2) + 4
+    for (i=1;i<n;i++)
+    {
+        strp = arr[(i+Math.round(option/(10*i)))%pi]
+        if (str.search(strp)<0) 
+            str += strp + " ";
+        //else i--
+    }
+    return str
+}
+
+function compara(a,b,i,j)
+{
+ if (i==j) return 0;
+ if (a==b=="inf") return "inf";
+ if (a=="inf" && b!="inf") return b;
+ if (a!="inf" && b=="inf") return a;
+ else return (a>b) ? a : b;
+}
+
+function monta()
+{
+w = window.open();
+airp = new Array();
+c1 = new Array(new Array(),new Array(),new Array(),new Array(),new Array());
+w.document.write("<table border=0><tr><td><FONT FACE='Calibri'><IMG SRC='logo_ucs.jpg' align='left' width='200'>TEORIA DOS GRAFOS - A1 - 7.jun.22<BR />Enunciado exclusivo para "+ first(text)+ " RGM "+option)
+w.document.write("</td></tr></table><HR/><BR />")
+w.document.write("<FONT FACE='Calibri'><FONT COLOR='#FF0000'>")
+w.document.write("<B>Código gerado (colar no Word): "+ option%100+"$"+(option%12345)+String.fromCharCode(65+(option%26))+"</B></FONT><BR/><BR/>")
+w.document.write("Considere os seguinte grafos G<sub>A</sub>, G<sub>B</sub> E G<sub>C</sub>, definidos por suas matrizes de adjacência. <BR />")
+for (i=0;i<5;i++)
+ {
+  str="";
+  for (j=0;j<3;j++)
+   str+= String.fromCharCode(65+((option+j+i)*121)%26)
+  airp.push(str)
+ }
+var k;
+for (i=0;i<5;i++)
+{
+    for (j=0;j<5;j++)
+	{
+	 if (i==j) c1[i][j]=0
+	  else c1[i][j]="inf"
+	 if (i==0 && j<4 && j>0) c1[i][j]=((i+1)*1234*(option+i+j))%1000+200
+	 else if (i==1 && (j ==2 || j ==4)) c1[i][j]=i*4321*(option+i+j)%800+100
+	 else if (i==2 && j ==3 ) c1[i][j]=i*4321*(option+i+j)%615+100
+	 else if (i==3 && j ==4 ) c1[i][j]=i*4321*(option+i+j)%412+100
+	 k = (option%2) ? 4 : 3 
+	 c1[k][0] = 459*(option%10+1) 
+	 }
+}
+
+	w.document.write("Grafo G<sub>A</sub> - este grafo representa o custo de voar entre 5 aeroportos no mundo, representados por seus códigos: "+airp+"<BR/><TABLE BORDER=1>")
+	for (i=0;i<6;i++)
+	{
+	w.document.write("<TR>")
+	for (j=0;j<6;j++)
+	 {
+	  s = (i==0) ? ( (j==0) ? "" : airp[j-1] ) : ( (i>0 && j==0) ? airp[i-1] : c1[i-1][j-1]);
+	   w.document.write("<TD WIDTH=10%>"+s+"</TD>")
+	 }
+	w.document.write("</TR>")
+	}
+	w.document.write("</TABLE>")
+
+c2 = new Array(new Array(),new Array(),new Array(),new Array(),new Array());
+
+for (i=0;i<5;i++)
+ for (j=0;j<5;j++)
+      c2[i][j]=compara(c1[i][j],c1[j][i],i,j)
+	w.document.write("<HR/>Grafo G<sub>B</sub> - este grafo representa as distâncias entre aeroportos que têm voos<TABLE BORDER=1>")
+	for (i=0;i<6;i++)
+	{
+	w.document.write("<TR>")
+	for (j=0;j<6;j++)
+	 {
+	  s = (i==0) ? ( (j==0) ? "" : airp[j-1] ) : ( (i>0 && j==0) ? airp[i-1] : c2[i-1][j-1]);
+	  if (!isNaN(s)) s=s*2
+	  w.document.write("<TD WIDTH=10%>"+s+"</TD>")
+	 }
+	w.document.write("</TR>")
+	}
+	w.document.write("</TABLE>")
+
+
+c3 = new Array(new Array(),new Array(),new Array(),new Array(),new Array());
+
+for (i=0;i<5;i++)
+ for (j=0;j<5;j++)
+      c3[i][j]= (!isNaN(c1[i][j]) && i!=j) ? (c1[i][j]%(13+i+j))+2 : 0
+ k = (option%2) ? 4 : 3
+ c3[k][j] = 0
+	w.document.write("<HR/>Grafo G<sub>C</sub> - este grafo representa o número máximo possível de voos diários entre aeroportos, considerando a origem (<i>source</i>) "+airp[0]+" e destino final (<i>sink</i>) "+airp[4]+"<TABLE BORDER=1>")
+	for (i=0;i<6;i++)
+	{
+	w.document.write("<TR>")
+	for (j=0;j<6;j++)
+	 {
+	  s = (i==0) ? ( (j==0) ? "" : airp[j-1] ) : ( (i>0 && j==0) ? airp[i-1] : c3[i-1][j-1]);
+	  w.document.write("<TD WIDTH=10%>"+s+"</TD>")
+	 }
+	w.document.write("</TR>")
+	}
+	w.document.write("</TABLE>")
+}
+    
+function binalet(a,b)
+{
+  return (a==b) ? 0 : (a+b+Math.round(option/3))%2        
+}
+    
+function montab(w)
+{
+w.document.write("<HR/><BR /><FONT FACE='Calibri'>Considere o seguinte grafo G<sub>B</sub> definido por sua matriz de adjacência. <BR />")
+w.document.write("Este grafo representa a relação \"estudou com\"<BR/>")
+w.document.write("Ou seja, se há uma entrada 1 na linha A e coluna B (e, obviamente, na linha B e coluna A), significa que A e B estudaram juntos<BR><P></font><Font face='Courier'>")
+adj = new Array();
+radj = new Array();
+pi = (option % 2) ? 8 : 7
+    for(i=10;i<pi+10;i++)
+        {
+		    k = (i+index)%(rgms.length)
+            adj[i-10] = first(noms[k])
+			radj[i-10] = rgms[k]
+        } 
+    //alert(adj)
+    w.document.write("<TABLE BORDER=1><TR><TD WIDTH=10%></TD>")
+    for(i=0;i<pi;i++) w.document.write("<TD WIDTH=10%>"+adj[i]+"</TD>")
+    w.document.write("</TR>")
+    for(i=0;i<pi;i++) 
+     { 
+         w.document.write("<TR><TD WIDTH=10%>"+adj[i]+"</TD>")
+         for (j=0;j<pi;j++)
+             w.document.write("<TD WIDTH=10%>"+binalet(i,j)+"</TD>")
+         w.document.write("</TR>")
+     }
+    w.document.write("</TABLE>")
+     
+w.document.write("</font><Hr/>")
+}
+
+function prv()
+{
+var resp = false;
+if (index==-1) alert("Selecione um RGM") 
+  else resp=confirm("Confirma abrir enunciado de "+text+"?")
+if (resp)
+    monta()
+}
+
+</script>
+<HTML><BODY>
+<table border=0><tr><td><FONT FACE='Calibri'><IMG SRC='logo_ucs.jpg' align='left' width='200'>TEORIA DOS GRAFOS - P1 - 26.abr.22<BR />
+</td></tr></table><HR/><BR />
+<FORM>
+<CENTER><FONT FACE='Calibri'>
+Seu RGM: 
+<select id="rgm" name="rgm" size= 1 onChange="update()">
+ <script>
+  var y;
+  for (i=0; i<rgms.length; i++){
+   y = '<option value="'+rgms[i]+'">'+rgms[i]+'</option>'
+   document.write(y); }
+ document.write("</select>");
+document.write('<button type="button" onClick="prv()">Abrir prova</button>')
+</script>
+</FORM>
